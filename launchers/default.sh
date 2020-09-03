@@ -43,7 +43,7 @@ set -e # now catch errors and stop
 jupyter nbextension enable --py --sys-prefix jupyros
 start_car_interface
 start_notebook
-dt-exec python3 $DT_REPO_PATH/solution.py --sim
+dt-exec python3 $DT_REPO_PATH/packages/ros-bridge/solution.py --sim
 
 
 # ----------------------------------------------------------------------------
