@@ -84,7 +84,7 @@ LABEL org.duckietown.label.module.type="${REPO_NAME}" \
 # <==================================================
 
 RUN mkdir -p /data/config
-RUN git clone https://github.com/duckietown/duckiefleet /data/config
+COPY assets/calibrations /data/config/calibrations
 
 FROM duckietown/dt-car-interface:${BASE_TAG} AS car-interface
 FROM BASE
