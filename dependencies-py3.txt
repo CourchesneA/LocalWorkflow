@@ -10,3 +10,11 @@ rospkg
 catkin_pkg
 pyyaml
 jupyros==0.2.0
+
+# For ros-bridge fifos
+#duckietown-world-daffy-aido4
+aido-protocols-daffy-aido4
+zuper-commons-z6
+zuper-ipce-z6
+zuper-nodes-z6
+zuper-typing-z6
