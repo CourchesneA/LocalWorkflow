@@ -1,1 +1,12 @@
 # LIST YOUR PYTHON3 PACKAGES HERE
+
+jupyter
+gitpython
+ipywidgets
+scipy
+sklearn
+matplotlib
+rospkg
+catkin_pkg
+pyyaml
+jupyros==0.2.0

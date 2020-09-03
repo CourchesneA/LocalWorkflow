@@ -1,9 +1,9 @@
 # parameters
-ARG REPO_NAME="<REPO_NAME_HERE>"
-ARG DESCRIPTION="<DESCRIPTION_HERE>"
-ARG MAINTAINER="<YOUR_FULL_NAME> (<YOUR_EMAIL_ADDRESS>)"
+ARG REPO_NAME="local-workflow"
+ARG DESCRIPTION="Container to run the notebook and local code for duckietown"
+ARG MAINTAINER="Anthony Courchesne (anthony.courchesne@mail.mcgill.ca)"
 # pick an icon from: https://fontawesome.com/v4.7.0/icons/
-ARG ICON="cube"
+ARG ICON="book"
 
 # ==================================================>
 # ==> Do not change the code below this line
@@ -14,7 +14,11 @@ ARG BASE_IMAGE=dt-core
 ARG LAUNCHER=default
 
 # define base image
+
+FROM duckietown/dt-car-interface:${BASE_TAG} AS car-interface
 FROM duckietown/${BASE_IMAGE}:${BASE_TAG}
+
+COPY --from=car-interface /code/catkin_ws/src/dt-car-interface /code/catkin_ws/src/dt-car-interface
 
 # recall all arguments
 ARG ARCH
@@ -26,6 +30,12 @@ ARG ICON
 ARG BASE_TAG
 ARG BASE_IMAGE
 ARG LAUNCHER
+
+ENV DUCKIEFLEET_ROOT /data/config
+ENV READTHEDOCS True
+
+RUN mkdir -p /data/config
+RUN git clone https://github.com/duckietown/duckiefleet /data/config
 
 # check build arguments
 RUN dt-build-env-check "${REPO_NAME}" "${MAINTAINER}" "${DESCRIPTION}"
