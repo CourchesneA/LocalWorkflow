@@ -83,16 +83,19 @@ LABEL org.duckietown.label.module.type="${REPO_NAME}" \
 # <== Do not change the code above this line
 # <==================================================
 
+# copy default calibrations
 RUN mkdir -p /data/config
 COPY assets/calibrations /data/config/calibrations
 
+# open a link to the dt-car-interface
 FROM duckietown/dt-car-interface:${BASE_TAG} AS car-interface
 FROM BASE
 
+# copy code and launchers from dt-car-interface
 COPY --from=car-interface /code/catkin_ws/src/dt-car-interface /code/catkin_ws/src/dt-car-interface
 COPY --from=car-interface /launch/dt-car-interface /launch/dt-car-interface
 
-# build packages
+# build packages (this is needed to build the new code copied from dt-car-interface)
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
   catkin build \
     --workspace ${CATKIN_WS_DIR}/
