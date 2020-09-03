@@ -15,10 +15,7 @@ ARG LAUNCHER=default
 
 # define base image
 
-FROM duckietown/dt-car-interface:${BASE_TAG} AS car-interface
 FROM duckietown/${BASE_IMAGE}:${BASE_TAG}
-
-COPY --from=car-interface /code/catkin_ws/src/dt-car-interface /code/catkin_ws/src/dt-car-interface
 
 # recall all arguments
 ARG ARCH
@@ -30,12 +27,6 @@ ARG ICON
 ARG BASE_TAG
 ARG BASE_IMAGE
 ARG LAUNCHER
-
-ENV DUCKIEFLEET_ROOT /data/config
-ENV READTHEDOCS True
-
-RUN mkdir -p /data/config
-RUN git clone https://github.com/duckietown/duckiefleet /data/config
 
 # check build arguments
 RUN dt-build-env-check "${REPO_NAME}" "${MAINTAINER}" "${DESCRIPTION}"
@@ -92,3 +83,14 @@ LABEL org.duckietown.label.module.type="${REPO_NAME}" \
     org.duckietown.label.maintainer="${MAINTAINER}"
 # <== Do not change the code above this line
 # <==================================================
+
+ENV DUCKIEFLEET_ROOT /data/config
+ENV READTHEDOCS True
+
+RUN mkdir -p /data/config
+RUN git clone https://github.com/duckietown/duckiefleet /data/config
+
+FROM duckietown/dt-car-interface:${BASE_TAG} AS car-interface
+
+COPY --from=car-interface /code/catkin_ws/src/dt-car-interface /code/catkin_ws/src/dt-car-interface
+COPY --from=car-interface /launch/dt-car-interface/default.sh /launch/dt-car-interface/default.sh
